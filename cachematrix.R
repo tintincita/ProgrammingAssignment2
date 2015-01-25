@@ -1,15 +1,34 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Followed example on cache mean. Trial and error and learning little by little
 
-## Write a short comment describing this function
+## creates a list containing functions to set, get, 
+## setmatrix(inverse) and getmatrix(inverse)
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+        get <- function() x
+        setmatrix <- function(solve) m <<- solve
+        getmatrix <- function() m
+        list(set = set, get = get,
+             setmatrix = setmatrix,
+             getmatrix = getmatrix)
 }
 
 
-## Write a short comment describing this function
+## Magic!
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+        m<-x$getmatrix()
+        if(!is.null(m)){
+                message("getting cached data")
+                return(m)
+        }
+        matrix<-x$get()
+        m<-solve(matrix, ...)
+        x$setmatrix(m)
+        m
 }
